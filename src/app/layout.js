@@ -16,19 +16,49 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Muhammad wasi",
-  description: "A highly optimized and SEO-friendly portfolio built with Next.js 15.",
-  url: "https://your-portfolio.com",
+  title: "Muhammad Wasi | MERN Stack Developer",
+  description:
+    "Experienced MERN Stack Developer building high-performance, scalable web applications. Explore my SEO-optimized portfolio built with Next.js 15.",
+  url: "https://muhammadwasiportfolio.vercel.app",
   siteName: "Muhammad Wasi Portfolio",
   images: [
     {
-      url: "/favicon.png",
+      url: "/favicon.ico",
       width: 1200,
       height: 630,
+      alt: "Muhammad Wasi Portfolio Thumbnail",
     },
   ],
   type: "website",
+  keywords: [
+    "Muhammad Wasi",
+    "MERN Stack Developer",
+    "Next.js 15 Portfolio",
+    "Full Stack Developer",
+    "React Developer",
+    "Web Development",
+    "SEO Optimized Portfolio",
+  ],
+  authors: [{ name: "Muhammad Wasi", url: "https://muhammadwasiportfolio.vercel.app" }],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://muhammadwasiportfolio.vercel.app",
+    title: "Muhammad Wasi | MERN Stack Developer",
+    description:
+      "An SEO-friendly portfolio showcasing MERN stack projects built with Next.js 15.",
+    siteName: "Muhammad Wasi Portfolio",
+    images: [
+      {
+        url: "/favicon.ico",
+        width: 1200,
+        height: 630,
+        alt: "Muhammad Wasi Portfolio Thumbnail",
+      },
+    ],
+  },
 };
+
 
 export default function RootLayout({ children }) {
   return (

@@ -39,7 +39,7 @@ const Navbar = () => {
         </SheetTrigger>
         <SheetContent side="left">
           <nav className="grid gap-2 py-6">
-            {["Home", "About", "Projects", "Contact"].map((item) => (
+            {["Home", "About", "Services" , "Projects", "Contact"].map((item) => (
               <Link
                 key={item}
                 href={`/${item.toLowerCase()}`}
@@ -61,7 +61,7 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <nav className="ml-auto hidden lg:flex gap-6">
-        {["Home", "About", "Projects", "Contact"].map((item) => (
+        {["Home", "About", "Services" , "Projects", "Contact"].map((item) => (
           <Link
             key={item}
             href={`/${item.toLowerCase()}`}
