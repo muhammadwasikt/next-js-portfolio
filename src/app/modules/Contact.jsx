@@ -127,7 +127,7 @@ const Contact = () => {
           onChange={handleChange}
           required 
         />
-        <Button className="w-full" type="submit" disabled={loading}>
+        <Button className="w-full" type="submit" disabled={loading} aria-label="Send Message">
           {loading ? "Sending..." : "Send Message"}
         </Button>
       </motion.form>

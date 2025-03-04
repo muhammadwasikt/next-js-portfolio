@@ -1,20 +1,19 @@
 "use client";
 
 import { Button } from "../../ui/button";
-import { useTheme } from "next-themes";
 import Github from "../../logos/github";
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
 import Linkedin from "@/components/logos/linkedin";
 import Resume from "@/components/logos/resume";
+import Image from "next/image"
 
 
-const HeroImage = "/assets/images/hero-image.png";
+
+const HeroImage = "/assets/images/hero-image.webp";
 
 
 export default function Hero() {
-  const { resolvedTheme } = useTheme();
-  let src;
 
   const clicks = (type) => {
     if (type === "github") {
@@ -28,17 +27,6 @@ export default function Hero() {
     }
   }
 
-  switch (resolvedTheme) {
-    case "light":
-      src = "/app-light.png";
-      break;
-    case "dark":
-      src = "/app-dark.png";
-      break;
-    default:
-      src = "/app-dark.png";
-      break;
-  }
 
   return (
     <section className="fade-bottom overflow-hidden p-3 pb-16">
@@ -49,12 +37,12 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: "easeIn" }}
           >
-            <img src={HeroImage} alt="MUHAMMAD WASI"
-              className='mx-auto m-5 w-48 h-48 rounded-full object-contain transform 
-            transition-transform duration-300 hover:scale-105'/>
+            <Image src={HeroImage} alt="MUHAMMAD WASI" width={195} height={192}
+              className='mx-auto m-5 rounded-full object-contain transform 
+            transition-transform duration-300 hover:scale-105' priority placeholder="blur" blurDataURL="data:image/webp;base64,LIIXN+E13s?G7#j?tmxuNGs:;{Ip"/>
           </motion.div>
           <motion.h1
-            className="relative z-10 inline-block bg-gradient-to-r from-foreground to-foreground bg-clip-text text-4xl max-sm:text-xl font-semibold leading-tight text-transparent drop-shadow-2xl sm:text-6xl sm:leading-tight md:text-8xl md:leading-tight dark:to-muted-foreground"
+            className="relative z-10 inline-block bg-gradient-to-r from-foreground to-foreground bg-clip-text text-2xl max-sm:text-xl font-semibold leading-tight text-transparent drop-shadow-2xl sm:text-6xl sm:leading-tight md:text-8xl md:leading-tight dark:to-muted-foreground"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -87,15 +75,15 @@ export default function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 1 }}
           >
-            <Button variant="default" size="lg" asChild onClick={() => clicks("linkedin")}>
+            <Button variant="default" size="lg" asChild aria-label="Visit Linkedin Profile" onClick={() => clicks("linkedin")}>
               <a href="/"><Linkedin />Linkedin </a>
             </Button>
-            <Button variant="glow" size="lg" asChild onClick={() => clicks("github")}>
+            <Button variant="glow" size="lg" asChild aria-label="Visit GitHub Profile" onClick={() => clicks("github")}>
               <a href="/">
                 <Github className="mr-2 h-4 w-4" /> Github
               </a>
             </Button>
-            <Button variant="default" size="lg" asChild onClick={() => clicks("resume")}>
+            <Button variant="default" size="lg" asChild aria-label="Check My Resume" onClick={() => clicks("resume")}>
               <a href="/"><Resume />Resume </a>
             </Button>
           </motion.div>

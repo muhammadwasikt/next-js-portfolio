@@ -22,11 +22,11 @@ const Projects = () => {
                         {projects.map((project, index) => (
                             <motion.div key={index} whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
                                 <Card className="p-6 rounded-xl border shadow-xl max-[400px]:text-left">
-                                    <Image src={project.image} alt={project.title} width={400} height={200} className="rounded-lg mb-4 mx-auto border" />
+                                    <Image src={project.image} alt={project.title} width={400} height={200} className="rounded-lg mb-4 mx-auto border" loading="lazy" placeholder='blur' blurDataURL={project.image}/>
                                     <h3 className="text-2xl font-bold sm:h-16 max-[400px]:text-lg">{project.title}</h3>
                                     <p className="mt-2 text-md sm:h-[80px]">{project.description}</p>
                                     <Link href={project.link} target="_blank">
-                                        <Button className="mt-4 px-5 py-2 rounded-lg transform translate-x-1/2">View Project</Button>
+                                        <Button className="mt-4 px-5 py-2 rounded-lg transform translate-x-1/2" aria-label="Veiw Project Code ">View Project Code</Button>
                                     </Link>
                                 </Card>
                             </motion.div>
