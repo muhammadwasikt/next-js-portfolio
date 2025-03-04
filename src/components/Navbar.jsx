@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full bg-white dark:bg-[#0a0a0a9a] backdrop-brightness-0 z-50 flex h-16 items-center px-4 md:px-6 gap-4 transition-transform duration-300 ${
+      className={`fixed top-0 left-0 w-full bg-white border-bottom dark:bg-[#0a0a0a9a] backdrop-brightness-0 z-50 flex h-16 items-center px-4 md:px-6 gap-4 transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
