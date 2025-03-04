@@ -19,9 +19,6 @@ export const metadata = {
   title: "Muhammad Wasi | MERN Stack Developer",
   description:
     "Experienced MERN Stack Developer building high-performance, scalable web applications. Explore my SEO-optimized portfolio built with Next.js 15.",
-  other: {
-    "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
-  },
   url: "https://muhammadwasiportfolio.vercel.app",
   siteName: "Muhammad Wasi Portfolio",
   images: [
