@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
+import skills from "@/app/utils/constant/skills";
 
 const About = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -60,10 +61,11 @@ const About = () => {
             >
               <h2 className="text-5xl font-bold mb-6 drop-shadow-lg">SKILLS</h2>
               <div className="mt-10 grid max-[350px]:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {["HTML", "CSS", "JavaScript", "React", "Next.js", "Node.js", "Express", "MongoDB", "Firebase", "Tailwind CSS", "Shadcn", "Daisyui", "GitHub", "Bootstrap", "Material UI"].map((skill, index) => (
+                {skills.map((skill, index) => (
                   <motion.div key={index} whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }}>
-                    <Card className="p-6 rounded-xl text-center border shadow-xl">
-                      <h3 className="text-xl ">{skill}</h3>
+                    <Card className="h-16 rounded-xl text-center border shadow-xl flex flex-col items-center justify-center">
+                      <h3 className="text-xl ">{skill.value}</h3>
+                      <h6 className="text-sm">{skill.lavel && skill.lavel}</h6>
                     </Card>
                   </motion.div>
                 ))}
