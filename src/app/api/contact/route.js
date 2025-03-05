@@ -33,7 +33,7 @@ export async function POST(req) {
             html: `<p>Hi <strong>${name}</strong>,</p>
                    <p>Thank you for reaching out! I have received your message and will get back to you as soon as possible.</p>
                    <p>For a quicker response, feel free to message me on 
-                   <a href="https://wa.me/923111484053" target="_blank">WhatsApp</a>.</p>
+                   <a href="https://wa.me/923111484053?text=Hello%20Wasi,%20I%20just%20contacted%20you%20via%20your%20portfolio." target="_blank">WhatsApp</a>.</p>
                    <p>Best regards,<br>
                    <strong>Wasi</strong><br>
                    <a href="https://muhammadwasiportfolio.vercel.app">My Portfolio</a></p>`,
