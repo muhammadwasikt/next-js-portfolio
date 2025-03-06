@@ -4,19 +4,23 @@ import { ThemeProvider } from "@/components/theme-provider";
 import LoadingScreen from "@/components/LoadingScreen";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Script from "next/script"
+import Script from "next/script";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata = {
+  metadataBase: new URL("https://muhammadwasiportfolio.vercel.app"),
   title: "Muhammad Wasi | MERN Stack Developer",
   description:
     "Experienced MERN Stack Developer building high-performance, scalable web applications. Explore my SEO-optimized portfolio built with Next.js 15.",
@@ -60,18 +64,17 @@ export const metadata = {
   },
 };
 
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-     <head>
+      <Head>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-49JXYHF3YK"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         <Script
           id="google-analytics"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -81,7 +84,7 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-      </head>
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
