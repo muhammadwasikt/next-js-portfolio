@@ -1,16 +1,14 @@
 "use client";
-import dynamic from "next/dynamic"
+
 import { Button } from "../../ui/button";
 import Github from "../../logos/github";
 import { Typewriter } from "react-simple-typewriter";
 import Linkedin from "@/components/logos/linkedin";
 import Resume from "@/components/logos/resume";
 import Image from "next/image"
+import { motion } from "framer-motion"
 
-
-const motion = dynamic(() => import("framer-motion"));
-
-const HeroImage = "/assets/images/hero-image.webp";
+const HeroImage = "/assets/images/hero-image.webp"
 
 
 export default function Hero() {
@@ -38,7 +36,7 @@ export default function Hero() {
             transition={{ duration: 0.9, ease: "easeIn" }}
           >
             <Image src={HeroImage} alt="MUHAMMAD WASI" width={195} height={192}
-              className='mx-auto m-5 rounded-full object-contain transform 
+              className='mx-auto m-5 rounded-full object-contain w-auto h-auto transform 
             transition-transform duration-300 hover:scale-105' priority={false} placeholder="blur" blurDataURL="data:image/webp;base64,LIIXN+E13s?G7#j?tmxuNGs:;{Ip"/>
           </motion.div>
           <motion.h1
