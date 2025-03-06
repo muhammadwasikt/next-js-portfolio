@@ -1,4 +1,8 @@
-import Projects from '@/app/modules/Projects'
+import dynamic from "next/dynamic";
+
+
+const Project = dynamic(() => import("@/app/modules/Projects"));
+
 
 export const metadata = {
     title: "Projects",

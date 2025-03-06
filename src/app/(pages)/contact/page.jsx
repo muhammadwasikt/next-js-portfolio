@@ -1,4 +1,8 @@
-import Contact from "@/app/modules/Contact";
+import dynamic from "next/dynamic";
+
+
+const Contact = dynamic(() => import("@/app/modules/Contact"));
+
 
 export const metadata = {
     title: "Contact Us",

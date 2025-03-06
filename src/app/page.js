@@ -1,21 +1,18 @@
-import Head from "next/head"
-import Home from "./modules/Home"
+import dynamic from "next/dynamic";
 
 
-const page = () => {
-  return (
-    <>
-      <Head>
-        <title>MERN Stack Developer</title>
-        <meta name="description" content="Passionate MERN stack developer focused on building modern, responsive, and high-performance web applications." />
-        <meta name="keywords" content="MERN Stack, Web Development, React, Node.js" />
-        <meta name="author" content="Wasi" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head>
-      <Home />
-    </>
+const Home = dynamic(() => import("./modules/Home"));
 
-  )
-}
+export const metadata = {
+  title: "Muhammad Wasi | MERN Stack Developer",
+  description:
+    "Passionate MERN stack developer focused on building modern, responsive, and high-performance web applications.",
+  keywords: ["MERN Stack", "Web Development", "React", "Node.js"],
+};
 
-export default page
+
+const Page = () => {
+  return <Home />;
+};
+
+export default Page;

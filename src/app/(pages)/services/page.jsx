@@ -1,4 +1,7 @@
-import Service from '../../modules/Services'
+import dynamic from "next/dynamic";
+
+
+const Service = dynamic(() => import("@/app/modules/Services"));
 
 export const metadata = {
     title: "Services",

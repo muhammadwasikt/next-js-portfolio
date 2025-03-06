@@ -1,4 +1,8 @@
-import About from '@/app/modules/About'
+import dynamic from "next/dynamic";
+
+
+const About = dynamic(() => import("@/app/modules/About"));
+
 
 
 export const metadata = {

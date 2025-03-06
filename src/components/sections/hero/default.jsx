@@ -1,14 +1,14 @@
 "use client";
-
+import dynamic from "next/dynamic"
 import { Button } from "../../ui/button";
 import Github from "../../logos/github";
-import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
 import Linkedin from "@/components/logos/linkedin";
 import Resume from "@/components/logos/resume";
 import Image from "next/image"
 
 
+const motion = dynamic(() => import("framer-motion"));
 
 const HeroImage = "/assets/images/hero-image.webp";
 
@@ -39,7 +39,7 @@ export default function Hero() {
           >
             <Image src={HeroImage} alt="MUHAMMAD WASI" width={195} height={192}
               className='mx-auto m-5 rounded-full object-contain transform 
-            transition-transform duration-300 hover:scale-105' priority placeholder="blur" blurDataURL="data:image/webp;base64,LIIXN+E13s?G7#j?tmxuNGs:;{Ip"/>
+            transition-transform duration-300 hover:scale-105' priority={false} placeholder="blur" blurDataURL="data:image/webp;base64,LIIXN+E13s?G7#j?tmxuNGs:;{Ip"/>
           </motion.div>
           <motion.h1
             className="relative z-10 inline-block bg-gradient-to-r from-foreground to-foreground bg-clip-text text-2xl max-sm:text-xl font-semibold leading-tight text-transparent drop-shadow-2xl sm:text-6xl sm:leading-tight md:text-8xl md:leading-tight dark:to-muted-foreground"

@@ -1,4 +1,8 @@
-import Home from "@/app/modules/Home"
+import dynamic from "next/dynamic";
+
+
+const Home = dynamic(() => import("@/app/modules/Home"));
+
 
 export const metadata = {
   title: "Muhammad Wasi",
