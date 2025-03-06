@@ -1,4 +1,6 @@
-import Hero from '@/components/sections/hero/default'
+import dynamic from "next/dynamic"
+
+const Hero = dynamic(() => import('@/components/sections/hero/default'))
 
 
 

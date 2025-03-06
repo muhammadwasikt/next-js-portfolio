@@ -8,7 +8,7 @@ import Resume from "@/components/logos/resume";
 import Image from "next/image"
 import { motion } from "framer-motion"
 
-const HeroImage = "/assets/images/hero-image.webp"
+const HeroImage = "/assets/images/hero-image.jpg"
 
 
 export default function Hero() {
