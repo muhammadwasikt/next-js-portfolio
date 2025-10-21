@@ -21,7 +21,7 @@ export default function Hero() {
       window.open('https://www.linkedin.com/in/muhammad-wasi-imran-khatri/', '_blank');
     }
     if (type === "resume") {
-      window.open('https://firebasestorage.googleapis.com/v0/b/portfolio-3147e.appspot.com/o/M.%20WASI%20IMRAN%20(2).pdf?alt=media&token=04ca1eaf-9a85-47db-97ba-0f0e4bf68128', '_blank')
+      window.open('https://res-console.cloudinary.com/dbnogd93t/thumbnails/v1/image/upload/v1761022704/TS5fV0FTSV9JTVJBTl96cGNhb2I=/as_is/M._WASI_IMRAN_zpcaob', '_blank')
     }
   }
 
