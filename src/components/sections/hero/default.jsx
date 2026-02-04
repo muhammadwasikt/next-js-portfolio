@@ -17,11 +17,11 @@ export default function Hero() {
     if (type === "github") {
       window.open('https://www.github.com/muhammadwasikt', '_blank');
     }
-    if (type === "linkedin") {
-      window.open('https://www.linkedin.com/in/muhammad-wasi-imran-khatri/', '_blank');
+        if (type === "linkedin") {
+      window.open('https://www.linkedin.com/in/muhammadwasikt', '_blank');
     }
     if (type === "resume") {
-      window.open('https://res-console.cloudinary.com/dbnogd93t/thumbnails/v1/image/upload/v1761022704/TS5fV0FTSV9JTVJBTl96cGNhb2I=/as_is/M._WASI_IMRAN_zpcaob', '_blank')
+      window.open('https://niyoizgkmktkgnapxtng.supabase.co/storage/v1/object/public/M.wasi%20imran/resume/M.%20WASI%20IMRAN%20(2).pdf', '_blank')
     }
   }
 
