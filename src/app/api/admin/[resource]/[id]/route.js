@@ -60,7 +60,7 @@ export async function DELETE(_request, context) {
       const lookup = await supabaseRest("media_assets?select=storage_path&id=eq." + encodeURIComponent(resource.id), { token: auth.token });
       const rows = await lookup.json().catch(() => []);
       const storagePath = Array.isArray(rows) ? rows[0]?.storage_path : null;
-      if (storagePath) {
+      if (storagePath && !storagePath.startsWith("legacy/")) {
         const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
         const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
         if (!baseUrl || !anonKey) return jsonError("Supabase is not configured.", 500);
