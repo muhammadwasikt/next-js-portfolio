@@ -13,7 +13,7 @@ async function authorize() {
 async function resourceFor(context) {
   const params = await context.params; const resource = CMS_RESOURCES[params.resource];
   if (!resource) return { error: jsonError("Unknown CMS resource.", 404) };
-  return { ...resource, id: params.id };
+  return { ...resource, key: params.resource, id: params.id };
 }
 function normalize(body, fields, userId, table) {
   const payload = {};
@@ -53,6 +53,21 @@ export async function DELETE(_request, context) {
   try {
     const auth = await authorize(); if (auth.error) return auth.error;
     const resource = await resourceFor(context); if (resource.error) return resource.error;
+    if (resource.key === "media") {
+      const lookup = await supabaseRest("media_assets?select=storage_path&id=eq." + encodeURIComponent(resource.id), { token: auth.token });
+      const rows = await lookup.json().catch(() => []);
+      const storagePath = Array.isArray(rows) ? rows[0]?.storage_path : null;
+      if (storagePath) {
+        const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+        if (!baseUrl || !anonKey) return jsonError("Supabase is not configured.", 500);
+        const encodedPath = storagePath.split("/").map(encodeURIComponent).join("/");
+        const storageDelete = await fetch(baseUrl.replace(/\/$/, "") + "/storage/v1/object/portfolio-media/" + encodedPath, {
+          method: "DELETE", headers: { apikey: anonKey, Authorization: "Bearer " + auth.token }, cache: "no-store"
+        });
+        if (!storageDelete.ok) return jsonError("Could not remove the image file from storage. The record was kept.", storageDelete.status);
+      }
+    }
     const result = await supabaseRest(resource.table + "?id=eq." + encodeURIComponent(resource.id), {
       token: auth.token, method: "DELETE", prefer: "return=representation"
     });

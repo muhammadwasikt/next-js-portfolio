@@ -1,41 +1,16 @@
-'use client';
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { getPublicRows, getSiteContent } from "@/lib/cms/public-data";
 
-import { motion } from 'framer-motion';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import projects from '@/app/utils/constant/projects';
-import Link from 'next/link';
-import Image from "next/image";
-
-
-const Projects = () => {
-    return (
-        <section id="projects" className="p-10 px-5 md:px-20 pt-20">
-            <div className="w-full mx-auto text-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
-                >
-                    <h2 className="text-5xl font-bold mb-6 drop-shadow-lg max-sm:text-2xl">PROJECTS</h2>
-                    <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {projects.map((project, index) => (
-                            <motion.div key={index} whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
-                                <Card className="p-6 rounded-xl border shadow-xl max-[400px]:text-left">
-                                    <Image src={project.image} alt={project.title} width={400} height={200} className="rounded-lg mb-4 mx-auto border" loading="lazy" placeholder='blur' blurDataURL={project.image}/>
-                                    <h3 className="text-2xl font-bold sm:h-16 max-[400px]:text-lg">{project.title}</h3>
-                                    <p className="mt-2 text-md sm:h-[80px]">{project.description}</p>
-                                    <Link href={project.link} target="_blank">
-                                        <Button className="mt-4 px-5 py-2 rounded-lg transform translate-x-1/2" aria-label="Veiw Project Code ">View Project Code</Button>
-                                    </Link>
-                                </Card>
-                            </motion.div>
-                        ))}
-                    </div>
-                </motion.div>
-            </div>
-        </section>
-    );
-};
-
-export default Projects;
+export default async function Projects() {
+  const [site, projects, media] = await Promise.all([
+    getSiteContent(),
+    getPublicRows("projects", "select=*&status=eq.published&order=sort_order.asc"),
+    getPublicRows("media_assets", "select=id,title,alt_text,public_url")
+  ]);
+  const byId = Object.fromEntries(media.map(item => [item.id, item]));
+  return <main className="portfolio-experience"><section className="portfolio-section">
+    <div className="portfolio-section-heading"><p className="portfolio-eyebrow">{site.projects_page?.eyebrow || ""}</p><h1>{site.projects_page?.title || ""}</h1><p className="portfolio-section-description">{site.projects_page?.description || ""}</p></div>
+    {projects.length ? <div className="portfolio-project-grid">{projects.map((project,index)=><article className={"portfolio-project-card project-card-"+(index%3)} key={project.id}><Link href={"/projects/"+project.slug} className="portfolio-project-art">{byId[project.cover_media_id]?.public_url ? <img src={byId[project.cover_media_id].public_url} alt={byId[project.cover_media_id].alt_text || project.title} loading="lazy"/> : <div className="portfolio-image-placeholder"/>}<span className="portfolio-project-open"><ArrowUpRight size={18}/></span></Link><div className="portfolio-project-info"><p className="portfolio-project-category">{project.category}</p><h3><Link href={"/projects/"+project.slug}>{project.title}</Link></h3><p>{project.summary || project.description}</p><div className="portfolio-tech-list">{(project.tech_stack || []).map(tech=><span key={tech}>{tech}</span>)}</div></div></article>)}</div> : null}
+  </section></main>;
+}

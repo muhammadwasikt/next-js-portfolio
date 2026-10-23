@@ -49,8 +49,8 @@ export default async function PortfolioHome() {
       <div className="portfolio-hero-art" aria-label={hero.art_alt || "Abstract 3D portfolio artwork"}>
         <div className="portfolio-art-orbit orbit-a" /><div className="portfolio-art-orbit orbit-b" /><div className="portfolio-art-orbit orbit-c" />
         <div className="portfolio-art-core">{hero.image_url ? <img src={hero.image_url} alt={hero.art_alt || ""} /> : <div className="portfolio-art-shine" />}</div>
-        <span className="portfolio-art-chip chip-top">{hero.art_label || "DESIGN × ENGINEERING"}</span>
-        <span className="portfolio-art-chip chip-bottom"><Sparkles size={13} /> {hero.art_caption || "Ideas made tangible"}</span>
+        <span className="portfolio-art-chip chip-top">{hero.art_label || ""}</span>
+        <span className="portfolio-art-chip chip-bottom"><Sparkles size={13} /> {hero.art_caption || ""}</span>
       </div>
       <a className="portfolio-scroll-cue" href="#selected-work"><span>SCROLL TO EXPLORE</span><ArrowDownRight size={16} /></a>
     </section>
@@ -58,7 +58,7 @@ export default async function PortfolioHome() {
     {skills.length > 0 ? <section className="portfolio-skill-ribbon"><span className="portfolio-ribbon-label">CRAFT & TOOLKIT</span><div className="portfolio-skill-list">{skills.map(skill => <span key={skill.id}>{skill.name}</span>)}</div></section> : null}
 
     <section className="portfolio-section portfolio-work-section" id="selected-work">
-      <SectionHeading eyebrow={sectionCopy.projects_eyebrow || "SELECTED WORK"} title={sectionCopy.projects_title || "Built with intent."} description={sectionCopy.projects_description || ""} />
+      <SectionHeading eyebrow={sectionCopy.projects_eyebrow || ""} title={sectionCopy.projects_title || ""} description={sectionCopy.projects_description || ""} />
       {visibleProjects.length ? <div className="portfolio-project-grid">{visibleProjects.map((project, index) => <article className={"portfolio-project-card project-card-" + (index % 3)} key={project.id}>
         <Link href={"/projects/" + project.slug} className="portfolio-project-art">
           <MediaImage media={mediaById[project.cover_media_id]} alt={project.title} />
@@ -67,7 +67,7 @@ export default async function PortfolioHome() {
         </Link>
         <div className="portfolio-project-info"><div><p className="portfolio-project-category">{project.category}</p><h3><Link href={"/projects/" + project.slug}>{project.title}</Link></h3><p>{project.summary || project.description}</p></div><div className="portfolio-project-bottom"><div className="portfolio-tech-list">{(project.tech_stack || []).slice(0, 4).map(tech => <span key={tech}>{tech}</span>)}</div>{project.live_url ? <a href={project.live_url} target="_blank" rel="noreferrer" aria-label={"Open " + project.title + " website"}><ExternalLink size={15} /></a> : null}</div></div>
       </article>)}</div> : <p className="portfolio-empty-note">{site.empty_state?.projects || ""}</p>}
-      <div className="portfolio-section-end"><Link href="/projects" className="portfolio-text-link">{sectionCopy.all_projects_label || "Explore all projects"} <ArrowUpRight size={16} /></Link></div>
+      <div className="portfolio-section-end"><Link href="/projects" className="portfolio-text-link">{sectionCopy.all_projects_label || ""} <ArrowUpRight size={16} /></Link></div>
     </section>
 
     {profile.headline || profile.bio || profile.image_url ? <section className="portfolio-about-section" id="about">
@@ -79,7 +79,7 @@ export default async function PortfolioHome() {
     </section> : null}
 
     {visibleStudies.length > 0 ? <section className="portfolio-section portfolio-case-section" id="case-studies">
-      <SectionHeading eyebrow={sectionCopy.case_studies_eyebrow || "BEHIND THE BUILD"} title={sectionCopy.case_studies_title || "The thinking behind the work."} description={sectionCopy.case_studies_description || ""} />
+      <SectionHeading eyebrow={sectionCopy.case_studies_eyebrow || ""} title={sectionCopy.case_studies_title || ""} description={sectionCopy.case_studies_description || ""} />
       <div className="portfolio-case-grid">{visibleStudies.map((study, index) => <Link key={study.id} href={"/case-studies/" + study.slug} className="portfolio-case-card">
         <span className="portfolio-case-number">{String(index + 1).padStart(2, "0")}</span><span className="portfolio-case-arrow"><ArrowUpRight size={19} /></span>
         <div className="portfolio-case-cover"><MediaImage media={mediaById[study.cover_media_id]} alt={study.title} /></div>
@@ -88,15 +88,15 @@ export default async function PortfolioHome() {
     </section> : null}
 
     {experiences.length > 0 ? <section className="portfolio-section portfolio-experience-section" id="experience">
-      <SectionHeading eyebrow={sectionCopy.experience_eyebrow || "THE JOURNEY"} title={sectionCopy.experience_title || "Experience in practice."} description={sectionCopy.experience_description || ""} />
+      <SectionHeading eyebrow={sectionCopy.experience_eyebrow || ""} title={sectionCopy.experience_title || ""} description={sectionCopy.experience_description || ""} />
       <div className="portfolio-timeline">{experiences.map(item => <article className="portfolio-timeline-item" key={item.id}><div className="portfolio-timeline-date">{item.start_date ? new Date(item.start_date + "T00:00:00").getFullYear() : ""}{item.is_current ? " — NOW" : item.end_date ? " — " + new Date(item.end_date + "T00:00:00").getFullYear() : ""}</div><div className="portfolio-timeline-content"><h3>{item.role}</h3><p className="portfolio-timeline-company">{item.company}{item.location ? " · " + item.location : ""}</p>{item.summary ? <p>{item.summary}</p> : null}{Array.isArray(item.achievements) && item.achievements.length ? <ul>{item.achievements.map((achievement, index) => <li key={index}>{typeof achievement === "string" ? achievement : achievement.text || ""}</li>)}</ul> : null}</div></article>)}</div>
     </section> : null}
 
     {testimonials.length > 0 ? <section className="portfolio-section portfolio-testimonials-section" id="testimonials">
-      <SectionHeading eyebrow={sectionCopy.testimonials_eyebrow || "KIND WORDS"} title={sectionCopy.testimonials_title || "Good work is a team sport."} description={sectionCopy.testimonials_description || ""} />
+      <SectionHeading eyebrow={sectionCopy.testimonials_eyebrow || ""} title={sectionCopy.testimonials_title || ""} description={sectionCopy.testimonials_description || ""} />
       <div className="portfolio-testimonial-grid">{testimonials.map(item => <figure key={item.id} className="portfolio-testimonial"><span className="portfolio-quote-mark">“</span><blockquote>{item.quote}</blockquote><figcaption><div className="portfolio-avatar">{item.person_name.slice(0, 1).toUpperCase()}</div><div><strong>{item.person_name}</strong><span>{[item.role, item.company].filter(Boolean).join(" · ")}</span></div></figcaption></figure>)}</div>
     </section> : null}
 
-    <section className="portfolio-contact-band" id="contact"><div><p className="portfolio-eyebrow">{safeText(site.contact?.eyebrow)}</p><h2>{safeText(site.contact?.headline)}</h2><p>{safeText(site.contact?.description)}</p></div><div className="portfolio-contact-actions">{site.contact?.email ? <a className="portfolio-button portfolio-button-primary" href={"mailto:" + site.contact.email}>{site.contact?.cta_label || "Start a conversation"}<ArrowUpRight size={17} /></a> : null}{site.contact?.social_url && site.contact?.social_label ? <a className="portfolio-button portfolio-button-ghost" href={site.contact.social_url} target="_blank" rel="noreferrer">{site.contact.social_label}<ExternalLink size={15} /></a> : null}</div></section>
+    <section className="portfolio-contact-band" id="contact"><div><p className="portfolio-eyebrow">{safeText(site.contact?.eyebrow)}</p><h2>{safeText(site.contact?.headline)}</h2><p>{safeText(site.contact?.description)}</p></div><div className="portfolio-contact-actions">{site.contact?.email ? <a className="portfolio-button portfolio-button-primary" href={"mailto:" + site.contact.email}>{site.contact?.cta_label || ""}<ArrowUpRight size={17} /></a> : null}{site.contact?.social_url && site.contact?.social_label ? <a className="portfolio-button portfolio-button-ghost" href={site.contact.social_url} target="_blank" rel="noreferrer">{site.contact.social_label}<ExternalLink size={15} /></a> : null}</div></section>
   </main>;
 }
