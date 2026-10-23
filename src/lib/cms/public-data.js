@@ -10,7 +10,7 @@ export async function getPublicRows(table, query = "select=*") {
   try {
     const response = await fetch(settings.url + "/rest/v1/" + table + "?" + query, {
       headers: { apikey: settings.key, Authorization: "Bearer " + settings.key },
-      next: { revalidate: 60 }
+      cache: "no-store"
     });
     if (!response.ok) return [];
     const data = await response.json();
