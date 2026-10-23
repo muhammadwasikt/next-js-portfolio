@@ -154,6 +154,13 @@ create index if not exists experiences_public_order_idx on public.experiences(st
 create index if not exists testimonials_public_order_idx on public.testimonials(status, approved, sort_order);
 create index if not exists media_assets_tags_idx on public.media_assets using gin(tags);
 
+-- Explicit API privileges; RLS policies below still constrain each row/action.
+grant select on public.site_content, public.media_assets, public.projects, public.project_media,
+  public.case_studies, public.skills, public.experiences, public.testimonials to anon, authenticated;
+grant insert, update, delete on public.site_content, public.media_assets, public.projects, public.project_media,
+  public.case_studies, public.skills, public.experiences, public.testimonials to authenticated;
+grant select on public.admin_users to authenticated;
+
 create or replace function public.is_portfolio_admin()
 returns boolean
 language sql
