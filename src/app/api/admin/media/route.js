@@ -11,7 +11,7 @@ export async function POST(request) {
     const form = await request.formData();
     const file = form.get("file");
     if (!(file instanceof File) || !file.size) return jsonError("Choose an image to upload.");
-    const allowed = new Set(["image/jpeg", "image/png", "image/webp", "image/avif", "image/gif", "image/svg+xml"]);
+    const allowed = new Set(["image/jpeg", "image/png", "image/webp", "image/avif", "image/gif"]);
     if (!allowed.has(file.type)) return jsonError("Supported formats: JPG, PNG, WebP, AVIF, GIF and SVG.");
     if (file.size > 10 * 1024 * 1024) return jsonError("Images must be 10 MB or smaller.");
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

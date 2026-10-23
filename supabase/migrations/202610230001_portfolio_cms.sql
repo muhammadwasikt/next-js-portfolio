@@ -242,7 +242,7 @@ create trigger testimonials_updated_at before update on public.testimonials
 
 -- Create the private portfolio-media bucket in Supabase Storage.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values ('portfolio-media', 'portfolio-media', true, 10485760, array['image/jpeg','image/png','image/webp','image/avif','image/gif','image/svg+xml'])
+values ('portfolio-media', 'portfolio-media', true, 10485760, array['image/jpeg','image/png','image/webp','image/avif','image/gif'])
 on conflict (id) do update set
   public = excluded.public,
   file_size_limit = excluded.file_size_limit,

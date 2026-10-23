@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowDownRight, ArrowRight, ArrowUpRight, Code2, ExternalLink, Sparkles } from "lucide-react";
+import { ArrowDownRight, ArrowRight, ArrowUpRight, ExternalLink, Sparkles } from "lucide-react";
 import { getPublicRows, getSiteContent, safeText } from "@/lib/cms/public-data";
 
 function MediaImage({ media, alt = "" }) {
