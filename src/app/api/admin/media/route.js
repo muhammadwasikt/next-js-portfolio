@@ -1,6 +1,22 @@
 import { cookies } from "next/headers";
 import { getAuthUser, isPortfolioAdmin, jsonError, supabaseRest } from "@/lib/cms/supabase-rest";
 
+export async function GET() {
+  try {
+    const jar = await cookies();
+    const token = jar.get("portfolio_access_token")?.value;
+    if (!token) return jsonError("Authentication required.", 401);
+    const user = await getAuthUser(token);
+    if (!user?.id || !await isPortfolioAdmin(token)) return jsonError("Admin access required.", 403);
+    const result = await supabaseRest("media_assets?select=*&order=created_at.desc", { token });
+    const data = await result.json().catch(() => []);
+    if (!result.ok) return jsonError(data.message || "Unable to load media library.", result.status);
+    return Response.json({ data });
+  } catch {
+    return jsonError("Supabase is not configured or the request failed.", 500);
+  }
+}
+
 export async function POST(request) {
   try {
     const jar = await cookies();
@@ -12,7 +28,7 @@ export async function POST(request) {
     const file = form.get("file");
     if (!(file instanceof File) || !file.size) return jsonError("Choose an image to upload.");
     const allowed = new Set(["image/jpeg", "image/png", "image/webp", "image/avif", "image/gif"]);
-    if (!allowed.has(file.type)) return jsonError("Supported formats: JPG, PNG, WebP, AVIF, GIF and SVG.");
+    if (!allowed.has(file.type)) return jsonError("Supported formats: JPG, PNG, WebP, AVIF and GIF.");
     if (file.size > 10 * 1024 * 1024) return jsonError("Images must be 10 MB or smaller.");
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
