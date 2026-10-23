@@ -1,141 +1,42 @@
 "use client";
-
-import { Mail, Phone, MapPin } from "lucide-react";
+import { useState } from "react";
+import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { useState } from "react";
 
-const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+export default function Contact({ contact = {} }) {
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setSuccess(false);
-    setError("");
-
+  const handleChange = event => setFormData(current => ({ ...current, [event.target.name]: event.target.value }));
+  async function handleSubmit(event) {
+    event.preventDefault(); setLoading(true); setSuccess(false); setError("");
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setSuccess(true);
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        setError("Failed to send message. Please try again.");
-      }
-    } catch (err) {
-      setError("An error occurred. Please try again later.");
-    }
-
-    setLoading(false);
-  };
-
-  return (
-    <section className="py-20 px-6 max-w-4xl mx-auto text-center">
-      <motion.h1 
-        className="text-4xl font-bold text-primary mb-6"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        Contact Me
-      </motion.h1>
-      
-      <motion.p 
-        className="text-gray-500 mb-10 dark:text-gray-200"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-      >
-        Feel free to reach out for collaborations or inquiries!
-      </motion.p>
-      
-      <motion.div 
-        className="grid md:grid-cols-2 gap-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-      >
-        <Card className="shadow-lg cursor-pointer" onClick={() => window.location.href = 'mailto:wasikhatri11@gmail.com'}>
-          <CardContent className="p-6 flex flex-col items-center">
-            <Mail className="text-primary w-10 h-10 mb-2" />
-            <p className="text-gray-700 dark:text-gray-200">wasikhatri11@gmail.com</p>
-          </CardContent>
-        </Card>
-        <Card className="shadow-lg cursor-pointer" onClick={() => window.location.href = 'tel:+923278455637'}>
-          <CardContent className="p-6 flex flex-col items-center">
-            <Phone className="text-primary w-10 h-10 mb-2" />
-            <p className="text-gray-700 dark:text-gray-200">+92 327 8455637</p>
-          </CardContent>
-        </Card>
-        <Card className="shadow-lg md:col-span-2 cursor-pointer" onClick={() => window.open('https://maps.app.goo.gl/PQu91Gd16zsuWhmU7', '_blank')}>
-          <CardContent className="p-6 flex flex-col items-center">
-            <MapPin className="text-primary w-10 h-10 mb-2" />
-            <p className="text-gray-700 dark:text-gray-200">Karachi, Pakistan</p>
-          </CardContent>
-        </Card>
-      </motion.div>
-      
-      <motion.form 
-        className="mt-10 space-y-4"
-        onSubmit={handleSubmit}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7 }}
-      >
-        <Input 
-          name="name"
-          placeholder="Your Name" 
-          className="w-full" 
-          value={formData.name} 
-          onChange={handleChange}
-          required 
-        />
-        <Input 
-          type="email" 
-          name="email"
-          placeholder="Your Email" 
-          className="w-full" 
-          value={formData.email} 
-          onChange={handleChange}
-          required 
-        />
-        <Textarea 
-          name="message"
-          placeholder="Your Message" 
-          className="w-full" 
-          rows={4} 
-          value={formData.message} 
-          onChange={handleChange}
-          required 
-        />
-        <Button className="w-full" type="submit" disabled={loading} aria-label="Send Message">
-          {loading ? "Sending..." : "Send Message"}
-        </Button>
-      </motion.form>
-
-      {success && <p className="mt-4 text-green-500">Message sent successfully!</p>}
-      {error && <p className="mt-4 text-red-500">{error}</p>}
-    </section>
-  );
+      const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(formData) });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Unable to send message.");
+      setSuccess(true); setFormData({ name: "", email: "", message: "" });
+    } catch (err) { setError(err.message || "An error occurred. Please try again."); }
+    finally { setLoading(false); }
+  }
+  const details = [
+    contact.email ? { label: contact.email, href: "mailto:" + contact.email, Icon: Mail } : null,
+    contact.phone ? { label: contact.phone, href: "tel:" + contact.phone.replace(/[^+\d]/g, ""), Icon: Phone } : null,
+    contact.location ? { label: contact.location, href: contact.map_url || "", Icon: MapPin } : null
+  ].filter(Boolean);
+  return <section className="portfolio-contact-page">
+    <div className="portfolio-contact-page-heading"><p className="portfolio-eyebrow">{contact.eyebrow || ""}</p><h1>{contact.headline || ""}</h1><p>{contact.description || ""}</p></div>
+    <div className="portfolio-contact-details">{details.map(item=><Card key={item.label} className="portfolio-contact-detail-card"><CardContent className="p-5 flex items-center gap-3"><item.Icon className="text-primary" size={21}/>{item.href ? <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">{item.label}<ArrowUpRight size={13}/></a> : <span>{item.label}</span>}</CardContent></Card>)}</div>
+    <motion.form className="portfolio-contact-form" onSubmit={handleSubmit} initial={{opacity:0,y:18}} animate={{opacity:1,y:0}}>
+      <Input name="name" placeholder="Your name" value={formData.name} onChange={handleChange} required/>
+      <Input type="email" name="email" placeholder="Your email" value={formData.email} onChange={handleChange} required/>
+      <Textarea name="message" placeholder="Tell me a little about what you have in mind…" rows={5} value={formData.message} onChange={handleChange} required/>
+      <Button type="submit" disabled={loading}>{loading ? "Sending…" : contact.cta_label || "Send message"}</Button>
+      {success ? <p className="cms-success" role="status">Message sent successfully.</p> : null}{error ? <p className="cms-error" role="alert">{error}</p> : null}
+    </motion.form>
+  </section>;
 }
-
-export default Contact;

@@ -1,18 +1,12 @@
-import dynamic from "next/dynamic";
+import PortfolioHome from "./modules/PortfolioHome";
 
-
-const Home = dynamic(() => import("./modules/Home"));
-
-export const metadata = {
-  title: "Muhammad Wasi | MERN Stack Developer",
-  description:
-    "Passionate MERN stack developer focused on building modern, responsive, and high-performance web applications.",
-  keywords: ["MERN Stack", "Web Development", "React", "Node.js"],
-};
-
-
-const Page = () => {
-  return <Home />;
-};
-
-export default Page;
+export async function generateMetadata() {
+  const { getSiteContent } = await import("@/lib/cms/public-data");
+  const content = await getSiteContent();
+  const settings = content.site_settings || {};
+  const hero = content.hero || {};
+  const title = settings.seo_title || hero.headline || "Portfolio";
+  const description = settings.seo_description || hero.intro || "";
+  return { title, description, openGraph: { title, description, images: settings.og_image ? [settings.og_image] : undefined } };
+}
+export default async function Page() { return <PortfolioHome />; }

@@ -1,19 +1,8 @@
 import dynamic from "next/dynamic";
-
-
-const Service = dynamic(() => import("@/app/modules/Services"));
-
-export const metadata = {
-    title: "Services",
-    description: "Explore the services offered by Muhammad Wasi.",
-};
-
-const Services = () => {
-    return (
-        <Service />
-    )
+const Services = dynamic(() => import("@/app/modules/Services"));
+export async function generateMetadata() {
+  const { getSiteContent } = await import("@/lib/cms/public-data");
+  const site = await getSiteContent();
+  return { title: site.services_page?.seo_title || site.services_page?.title || "Services", description: site.services_page?.description || "" };
 }
-
-
-
-export default Services;
+export default function ServicesPage() { return <Services />; }

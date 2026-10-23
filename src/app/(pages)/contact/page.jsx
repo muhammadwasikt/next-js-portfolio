@@ -1,22 +1,10 @@
-import dynamic from "next/dynamic";
-
-
-const Contact = dynamic(() => import("@/app/modules/Contact"));
-
-
-export const metadata = {
-    title: "Contact Us",
-    description: "Get in touch with Wasi for collaborations or inquiries!",
-  };
-
-const ContactPage = () => {
-  return (
-    <>
-      <div>
-        <Contact />
-      </div>
-    </>
-  );
-};
-
-export default ContactPage;
+import Contact from "@/app/modules/Contact";
+import { getSiteContent } from "@/lib/cms/public-data";
+export async function generateMetadata() {
+  const site = await getSiteContent();
+  return { title: site.contact?.seo_title || site.contact?.headline || "Contact", description: site.contact?.description || "" };
+}
+export default async function ContactPage() {
+  const site = await getSiteContent();
+  return <Contact contact={site.contact || {}} />;
+}
