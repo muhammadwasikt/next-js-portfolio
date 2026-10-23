@@ -22,13 +22,16 @@ function normalize(body, fields, userId, table) {
     let value = body[field.name];
     if (field.type === "boolean") value = value === true || value === "true" || value === "on";
     if (field.type === "number") value = value === "" || value === null ? null : Number(value);
+    if (field.type === "date" && value === "") value = null;
+    if (field.type === "status" && !value) value = "draft";
     if (field.type === "tags") value = Array.isArray(value) ? value : String(value || "").split(",").map(item => item.trim()).filter(Boolean);
     if (field.type === "json" && typeof value === "string") {
       try { value = JSON.parse(value || (field.name === "value" ? "{}" : "[]")); }
       catch { throw new Error('"' + field.label + '" must contain valid JSON.'); }
     }
     if (field.type === "url" && value && !/^https?:\/\//i.test(value)) throw new Error('"' + field.label + '" must start with http:// or https://.');
-    payload[field.name] = value === "" ? null : value;
+    const nullable = field.type === "url" || field.type === "number" || field.type === "date" || field.name.endsWith("_media_id") || field.name === "project_id" || field.name === "media_id" || field.name === "rating";
+    payload[field.name] = value === "" && nullable ? null : value;
   }
   if (table === "site_content") payload.updated_by = userId;
   if (payload.status === "published" && !payload.published_at) payload.published_at = new Date().toISOString();
