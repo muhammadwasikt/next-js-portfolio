@@ -22,6 +22,8 @@ export default function AdminResourceClient({ resource, config }) {
   const [editing, setEditing] = useState(null);
   const [values, setValues] = useState({});
   const [uploadFile, setUploadFile] = useState(null);
+  const [mediaOptions, setMediaOptions] = useState([]);
+  const [projectOptions, setProjectOptions] = useState([]);
 
   const load = useCallback(async () => {
     setLoading(true); setError("");
@@ -34,6 +36,19 @@ export default function AdminResourceClient({ resource, config }) {
     finally { setLoading(false); }
   }, [resource]);
   useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    if (resource === "media") return;
+    let active = true;
+    Promise.all([
+      fetch("/api/admin/media", { cache: "no-store" }).then(response => response.ok ? response.json() : { data: [] }),
+      resource === "case-studies" ? fetch("/api/admin/projects", { cache: "no-store" }).then(response => response.ok ? response.json() : { data: [] }) : Promise.resolve({ data: [] })
+    ]).then(([mediaResult, projectResult]) => {
+      if (!active) return;
+      setMediaOptions(mediaResult.data || []);
+      setProjectOptions(projectResult.data || []);
+    }).catch(() => {});
+    return () => { active = false; };
+  }, [resource]);
 
   function openEditor(record = null) {
     setEditing(record || {});
@@ -119,6 +134,8 @@ export default function AdminResourceClient({ resource, config }) {
           {config.fields.map(field => <label key={field.name} className={field.type === "textarea" || field.type === "json" ? "cms-field-wide" : ""}>
             {field.label}{field.type === "boolean" ? <span className="cms-toggle-row"><input type="checkbox" checked={Boolean(values[field.name])} onChange={event => setValues(current => ({ ...current, [field.name]: event.target.checked }))} /> Enabled</span> :
             field.type === "status" ? <select value={values[field.name] || "draft"} onChange={event => setValues(current => ({ ...current, [field.name]: event.target.value }))}><option value="draft">Draft</option><option value="published">Published</option></select> :
+            field.name.endsWith("_media_id") || field.name === "media_id" ? <select value={values[field.name] || ""} onChange={event => setValues(current => ({ ...current, [field.name]: event.target.value }))}><option value="">No image selected</option>{mediaOptions.map(asset => <option key={asset.id} value={asset.id}>{asset.title} · {asset.id.slice(0, 8)}</option>)}</select> :
+            field.name === "project_id" ? <select value={values[field.name] || ""} onChange={event => setValues(current => ({ ...current, [field.name]: event.target.value }))}><option value="">No linked project</option>{projectOptions.map(project => <option key={project.id} value={project.id}>{project.title}</option>)}</select> :
             field.type === "textarea" || field.type === "json" ? <textarea rows={field.type === "json" ? 6 : 3} value={values[field.name] ?? ""} required={field.required} spellCheck={field.type !== "json"} onChange={event => setValues(current => ({ ...current, [field.name]: event.target.value }))} placeholder={field.type === "json" ? "Enter valid JSON…" : ""} /> :
             <input type={field.type === "number" ? "number" : field.type === "date" ? "date" : field.type === "url" ? "url" : "text"} value={values[field.name] ?? ""} required={field.required} onChange={event => setValues(current => ({ ...current, [field.name]: event.target.value }))} />}
           </label>)}
