@@ -11,6 +11,7 @@ Recommended keys:
 - section_copy: projects_eyebrow, projects_title, projects_description, all_projects_label, case_studies_eyebrow, case_studies_title, case_studies_description, skills_eyebrow, skills_title, experience_eyebrow, experience_title, testimonials_eyebrow, testimonials_title
 - contact: eyebrow, headline, description, email, phone, location, map_url, cta_label, social_url, social_label, seo_title
 - projects_page: eyebrow, title, description, seo_title
+- case_studies_page: eyebrow, title, description, seo_title
 - services_page: eyebrow, title, description, seo_title
 - services: array of title/description objects
 - empty_state: optional user-authored messages for empty public sections

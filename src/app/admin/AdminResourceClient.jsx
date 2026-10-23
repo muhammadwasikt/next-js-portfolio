@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Check, FileImage, LoaderCircle, Pencil, Plus, RefreshCw, Search, Trash2, X } from "lucide-react";
 
-const emptyFor = field => field.type === "boolean" ? false : field.type === "json" ? (field.name === "value" ? "{}" : "[]") : field.type === "number" ? "0" : "";
+const emptyFor = field => field.type === "boolean" ? false : field.type === "json" ? (field.name === "value" ? "{}" : "[]") : field.type === "number" ? (field.name === "sort_order" ? "0" : "") : "";
 function valueForForm(record, field) {
   const value = record?.[field.name];
   if (field.type === "boolean") return Boolean(value);

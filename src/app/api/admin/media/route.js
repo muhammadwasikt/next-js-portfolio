@@ -33,6 +33,7 @@ export async function POST(request) {
       public_url: baseUrl + "/storage/v1/object/public/portfolio-media/" + encodedPath,
       alt_text: String(form.get("alt_text") || "").slice(0, 500),
       caption: String(form.get("caption") || "").slice(0, 1000),
+      tags: String(form.get("tags") || "").split(",").map(tag => tag.trim()).filter(Boolean),
       mime_type: file.type, file_size: file.size, created_by: user.id
     };
     const inserted = await supabaseRest("media_assets", { token, method: "POST", body: metadata, prefer: "return=representation" });
